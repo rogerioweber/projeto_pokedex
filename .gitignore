@@ -1,0 +1,6 @@
+node-modules/
+.env*
+node_modules
+.vscode
+/dist
+database.json
