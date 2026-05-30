@@ -1,6 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
@@ -14,5 +13,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "removeComments": false
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
