@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "bulbasaur",
+    "types": ["grass", "poison"],
+    "hp": 45,
+    "attack": 49,
+    "defense": 49
+  },
+  {
+    "id": 3,
+    "name": "venusaur",
+    "types": ["grass", "poison"],
+    "hp": 80,
+    "attack": 82,
+    "defense": 83
+  }
+]

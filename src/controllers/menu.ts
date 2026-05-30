@@ -3,6 +3,9 @@ import fs from "node:fs";
 import { writeFile, readFile } from "node:fs/promises";
 import { buscarPokemon } from "../services/buscarPokemon";
 import { Pokemon } from "../models/pokemon";
+import { lerPokedex } from "../services/lerPokedex";
+import { verPokedex } from "../services/verPokedex";
+import { voltarMenu } from "../utils/voltarMenu";
 
 async function menuController(): Promise<boolean> {
   async function criarPokedex() {
@@ -12,7 +15,7 @@ async function menuController(): Promise<boolean> {
     }
   }
   await criarPokedex();
-
+  console.log("===============================================");
   const resposta = await inquirer.prompt([
     {
       type: "select",
@@ -26,6 +29,7 @@ async function menuController(): Promise<boolean> {
       ],
     },
   ]);
+  // console.log("===============================================");
 
   switch (resposta.opcao) {
     case "Procurar Pokemon":
@@ -35,13 +39,51 @@ async function menuController(): Promise<boolean> {
       const pokemonProcurado = pokemonDigitado.pokemonBusca;
 
       const pokemonAchadoAPI = await buscarPokemon(pokemonProcurado);
-      console.log(pokemonAchadoAPI); // estou retornando o pokemons já com as stats
+      const pokemonsNaPokedex = await lerPokedex();
 
+      const pokemonExistePokedex = pokemonsNaPokedex?.find(
+        (pokemonName: any) => pokemonAchadoAPI?.name === pokemonName.name,
+      );
 
-      return true;
+      if (pokemonExistePokedex) {
+        console.log(`O pokémon ${pokemonAchadoAPI?.name} já existe na Pokédex`);
+        await voltarMenu();
+        return true;
+      }
+
+      console.log("Pokémon Encontrado");
+      console.log(
+        `Pokémon: ${pokemonAchadoAPI?.name} | id: ${pokemonAchadoAPI?.id}`,
+      );
+
+      const desejaSalvar = await inquirer.prompt([
+        {
+          type: "select",
+          name: "salvar",
+          message: "Deseja salvar o pokémon na pokédex?",
+          choices: ["Sim", "Não"],
+        },
+      ]);
+
+      if (desejaSalvar.salvar === "Sim") {
+        pokemonsNaPokedex?.push(pokemonAchadoAPI);
+        await writeFile("./pokedex.json", JSON.stringify(pokemonsNaPokedex), {
+          encoding: "utf-8",
+        });
+        console.log(`${pokemonAchadoAPI?.name} salvo com sucesso!`);
+        await voltarMenu();
+        return true;
+      }
+
+      if (desejaSalvar.salvar === "Não") {
+        console.log(`${pokemonAchadoAPI?.name} não foi salvo na pokédex`);
+        await voltarMenu();
+        return true;
+      }
 
     case "Ver sua Pokédex":
-      console.log("Vendo");
+      await verPokedex();
+      await voltarMenu();
       return true;
 
     case "Deletar pokemon da Pokédex":
