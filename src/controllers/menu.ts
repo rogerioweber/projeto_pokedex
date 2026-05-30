@@ -1,6 +1,8 @@
 import inquirer from "inquirer";
 import fs from "node:fs";
 import { writeFile, readFile } from "node:fs/promises";
+import { buscarPokemon } from "../services/buscarPokemon";
+import { Pokemon } from "../models/pokemon";
 
 async function menuController(): Promise<boolean> {
   async function criarPokedex() {
@@ -27,7 +29,15 @@ async function menuController(): Promise<boolean> {
 
   switch (resposta.opcao) {
     case "Procurar Pokemon":
-      console.log("Procurando");
+      const pokemonDigitado = await inquirer.prompt([
+        { name: "pokemonBusca", message: "Digite o pokemon(nome ou id):" },
+      ]);
+      const pokemonProcurado = pokemonDigitado.pokemonBusca;
+
+      const pokemonAchadoAPI = await buscarPokemon(pokemonProcurado);
+      console.log(pokemonAchadoAPI); // estou retornando o pokemons já com as stats
+
+
       return true;
 
     case "Ver sua Pokédex":
