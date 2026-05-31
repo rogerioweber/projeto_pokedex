@@ -1,11 +1,12 @@
 import inquirer from "inquirer";
 import fs from "node:fs";
-import { writeFile, readFile } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import { buscarPokemon } from "../services/buscarPokemon";
 import { Pokemon } from "../models/pokemon";
 import { lerPokedex } from "../services/lerPokedex";
 import { verPokedex } from "../services/verPokedex";
 import { voltarMenu } from "../utils/voltarMenu";
+import { deletarPokemon } from "../services/deletarPokemon";
 
 async function menuController(): Promise<boolean> {
   async function criarPokedex() {
@@ -22,17 +23,16 @@ async function menuController(): Promise<boolean> {
       name: "opcao",
       message: "Pokédex",
       choices: [
-        "Procurar Pokemon",
+        "Procurar Pokémon",
         "Ver sua Pokédex",
-        "Deletar pokemon da Pokédex",
+        "Deletar Pokémon da Pokédex",
         "Fechar Pokédex",
       ],
     },
   ]);
-  // console.log("===============================================");
 
   switch (resposta.opcao) {
-    case "Procurar Pokemon":
+    case "Procurar Pokémon":
       const pokemonDigitado = await inquirer.prompt([
         { name: "pokemonBusca", message: "Digite o pokemon(nome ou id):" },
       ]);
@@ -50,7 +50,7 @@ async function menuController(): Promise<boolean> {
         await voltarMenu();
         return true;
       }
-
+      //tenho que colocar um if aqui porque quando da erro de encontrar o pokemon, ele ta retornando null e vem pokemon e id undefined. dai tenho que ver isso
       console.log("Pokémon Encontrado");
       console.log(
         `Pokémon: ${pokemonAchadoAPI?.name} | id: ${pokemonAchadoAPI?.id}`,
@@ -86,12 +86,12 @@ async function menuController(): Promise<boolean> {
       await voltarMenu();
       return true;
 
-    case "Deletar pokemon da Pokédex":
-      console.log("Deletando");
+    case "Deletar Pokémon da Pokédex":
+      await deletarPokemon()
+      await voltarMenu()
       return true;
 
     case "Fechar Pokédex":
-      console.log("Fechando");
       return false;
 
     default:

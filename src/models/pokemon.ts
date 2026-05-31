@@ -1,3 +1,5 @@
+//tenho que colocar o height e weight também nos meus dados
+
 export class Pokemon {
   constructor(
     public id: number,
@@ -6,6 +8,8 @@ export class Pokemon {
     public hp: number,
     public attack: number,
     public defense: number,
+    // public height: number,
+    // public weight: number,
   ) {}
 
   static pokemonDaApi(pokemon: any): Pokemon {
