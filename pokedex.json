@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": 3,
+    "name": "venusaur",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "hp": 80,
+    "attack": 82,
+    "defense": 83
+  }
+]
