@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
-import { buscarPokemon } from "../services/buscarPokemon";
-import { verPokedex } from "../services/verPokedex";
+import { procurarPokemon } from "../services/procurarPokemon";
+import { acessarPokedex } from "../services/acessarPokedex";
 import { voltarMenu } from "../utils/voltarMenu";
 import { deletarPokemon } from "../services/deletarPokemon";
 import { criarPokedex } from "../services/criarPokedex";
@@ -16,7 +16,7 @@ async function menuController(): Promise<boolean> {
       message: "Pokédex",
       choices: [
         "Procurar Pokémon",
-        "Ver sua Pokédex",
+        "Acessar sua Pokédex",
         "Deletar Pokémon da Pokédex",
         "Fechar Pokédex",
       ],
@@ -25,12 +25,12 @@ async function menuController(): Promise<boolean> {
 
   switch (resposta.opcao) {
     case "Procurar Pokémon":
-      await buscarPokemon()
-      await voltarMenu()
-      return true
+      await procurarPokemon();
+      await voltarMenu();
+      return true;
 
-    case "Ver sua Pokédex":
-      await verPokedex();
+    case "Acessar sua Pokédex":
+      await acessarPokedex();
       await voltarMenu();
       return true;
 

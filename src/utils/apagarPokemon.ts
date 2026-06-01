@@ -4,10 +4,12 @@ import { Pokemon } from "../models/pokemon";
 
 async function apagarPokemon(pokedex: Pokemon[], index: number) {
   if (index === -1) {
-    console.log("Pokémon não encontrado");
-    return;
+    console.log("[AVISO] Pokémon não encontrado");
+    return true;
   }
-  console.log("Pokémon encontrado");
+
+  console.log("[OK] Pokémon encontrado");
+
   const confirmar = await inquirer.prompt([
     {
       type: "select",
@@ -16,16 +18,19 @@ async function apagarPokemon(pokedex: Pokemon[], index: number) {
       choices: ["Sim", "Não"],
     },
   ]);
+
   if (confirmar.apagar === "Sim") {
     pokedex.splice(index, 1);
 
     await writeFile("./pokedex.json", JSON.stringify(pokedex, null, 2), {
       encoding: "utf-8",
     });
-    console.log("Pokémon removido com sucesso");
+
+    console.log("[OK] Pokémon removido com sucesso");
   }
-  if (confirmar.apagar === "Não"){
-	console.log("O pokémon não foi removido")
+
+  if (confirmar.apagar === "Não") {
+    console.log("[OK] O pokémon não foi removido");
   }
 }
 

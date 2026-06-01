@@ -1,22 +1,21 @@
-import { Pokemon } from "../models/pokemon";
-
 async function buscarPokemonApi(
   pokemonProcurado: string,
-): Promise<Pokemon | null> {
+): Promise<any | null> {
   const urlBase = "https://pokeapi.co/api/v2/pokemon/";
 
   try {
 	 const resposta = await fetch(`${urlBase}${pokemonProcurado}`);
 
 	 if (!resposta.ok) {
-		console.log("[ERRO] Pokémon não encontrado.");
+		console.log("[ERRO] Pokémon não encontrado na API.");
 		return null;
 	 }
+	 
 	 const pokemon = await resposta.json();
 
-	 return Pokemon.pokemonDaApi(pokemon);
+	 return pokemon;
   } catch (error) {
-	 console.log("[ERRO] Não foi possível buscar o Pokémon.");
+	 console.log("[ERRO] Não foi possível buscar o Pokémon na API.");
 	 return null;
   }
 }
