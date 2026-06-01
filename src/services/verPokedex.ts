@@ -5,18 +5,18 @@ async function verPokedex() {
   console.log("        MINHA POKEDEX        ");
   console.log("=============================");
 
-  const pokemons = await lerPokedex()
+  const pokemons = await lerPokedex();
 
-  if (pokemons && pokemons.length > 0){
-	pokemons.forEach((pokemon) => {
-		console.log(`Id: ${pokemon.id}`);
-      console.log(`Name: ${pokemon.name}`);
-      console.log(`Types: ${pokemon.types.join(", ")}`);
-      console.log(`Hp: ${pokemon.hp}`);
-      console.log(`Attack: ${pokemon.attack}`);
-      console.log(`Defense: ${pokemon.defense}`);
+  if (pokemons && pokemons.length > 0) {
+    pokemons.forEach((pokemon) => {
+      console.log(
+        `#${pokemon.id} | ${pokemon.name} | Types: ${pokemon.types.join(", ")} | height: ${Number(pokemon.height) / 10}m | weight: ${Number(pokemon.weight) / 10}kg `,
+      );
+      console.log(
+        `Hp: ${pokemon.hp} | Attack: ${pokemon.attack} | Defense: ${pokemon.defense}`,
+      );
       console.log("===============================================");
-	});
+    });
   }
 }
-export {verPokedex}
+export { verPokedex };

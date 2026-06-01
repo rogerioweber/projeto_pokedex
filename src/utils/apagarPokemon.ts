@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import { writeFile } from "node:fs/promises";
 import { Pokemon } from "../models/pokemon";
 
-async function apagarPokemon(pokemons: Pokemon[], index: number) {
+async function apagarPokemon(pokedex: Pokemon[], index: number) {
   if (index === -1) {
     console.log("Pokémon não encontrado");
     return;
@@ -12,14 +12,14 @@ async function apagarPokemon(pokemons: Pokemon[], index: number) {
     {
       type: "select",
       name: "apagar",
-      message: `Deseja apagar o ${pokemons[index].name}?`,
+      message: `Deseja apagar o ${pokedex[index].name}?`,
       choices: ["Sim", "Não"],
     },
   ]);
   if (confirmar.apagar === "Sim") {
-    pokemons.splice(index, 1);
+    pokedex.splice(index, 1);
 
-    await writeFile("./pokedex.json", JSON.stringify(pokemons, null, 2), {
+    await writeFile("./pokedex.json", JSON.stringify(pokedex, null, 2), {
       encoding: "utf-8",
     });
     console.log("Pokémon removido com sucesso");
