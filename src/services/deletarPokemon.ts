@@ -14,9 +14,9 @@ async function deletarPokemon() {
     },
   ]);
 
-  const pokemons = await lerPokedex();
+  const pokedex = await lerPokedex();
 
-  if (!pokemons || pokemons.length === 0) {
+  if (!pokedex || pokedex.length === 0) {
     console.log("A pokédex está vazia");
     await voltarMenu();
     return true;
@@ -28,10 +28,10 @@ async function deletarPokemon() {
     ]);
     const valor = nomeRecebido.nome;
 
-    const index = pokemons?.findIndex((pokemon) => {
+    const index = pokedex?.findIndex((pokemon) => {
       return pokemon.name.toLowerCase() === valor.toLowerCase();
     });
-    await apagarPokemon(pokemons, index);
+    await apagarPokemon(pokedex, index);
   }
 
   if (pokemonDeletar.deletar === "Id") {
@@ -40,11 +40,11 @@ async function deletarPokemon() {
     ]);
     const valor = Number(idRecebido.id);
 
-    const index = pokemons?.findIndex((pokemon) => {
+    const index = pokedex?.findIndex((pokemon) => {
       return pokemon.id === valor;
     });
 
-    await apagarPokemon(pokemons, index);
+    await apagarPokemon(pokedex, index);
   }
 }
 
