@@ -4,7 +4,7 @@ async function voltarMenu() {
 	await inquirer.prompt([
           {
             type: "input",
-            name: "enter",
+            name: "continuar",
             message: "Aperte enter para voltar ao menu da Pokédex",
           },
         ]);

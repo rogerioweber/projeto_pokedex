@@ -8,6 +8,7 @@ export class Pokemon {
     public hp: number,
     public attack: number,
     public defense: number,
+    public special_attack: number,
   ) {}
 
   static pokemonDaApi(pokemon: any): Pokemon {
@@ -27,6 +28,10 @@ export class Pokemon {
       (pokemonStat: any) => pokemonStat.stat.name === "defense",
     );
 
+    const special_attack = pokemon.stats.find(
+      (pokemonStat: any) => pokemonStat.stat.name === "special-attack",
+    );
+
     return new Pokemon(
       pokemon.id,
       pokemon.name,
@@ -36,6 +41,7 @@ export class Pokemon {
       hp.base_stat,
       attack.base_stat,
       defense.base_stat,
+      special_attack.base_stat,
     );
   }
 }
