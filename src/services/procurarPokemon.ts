@@ -11,6 +11,11 @@ async function procurarPokemon() {
 
   const pokemonProcurado = pokemonDigitado.nomeOuId;
 
+  if (!pokemonProcurado) {
+    console.log("[ERRO] Digite um nome ou ID.");
+    return;
+  }
+
   const pokemonAchadoAPI = await buscarPokemonApi(pokemonProcurado);
 
   const pokedex = await lerPokedex();
@@ -25,7 +30,7 @@ async function procurarPokemon() {
     return true;
   }
 
-  const pokemon = Pokemon.pokemonDaApi(pokemonAchadoAPI)
+  const pokemon = Pokemon.pokemonDaApi(pokemonAchadoAPI);
 
   const pokemonExistePokedex = pokedex.find(
     (pokemonName: any) => pokemon.name === pokemonName.name,
@@ -40,7 +45,7 @@ async function procurarPokemon() {
   console.log(
     `id: ${pokemon.id} | Pokémon: ${pokemon.name} |  Altura: ${pokemon.height / 10}m | Peso: ${pokemon.weight / 10}kg | Tipo: ${pokemon.types}`,
   );
-  
+
   await salvarPokemon(pokemon, pokedex);
 }
 
