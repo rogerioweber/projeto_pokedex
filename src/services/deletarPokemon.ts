@@ -1,6 +1,7 @@
 import inquirer from "inquirer";
-import { lerPokedex } from "../utils/lerPokedex";
+
 import { apagarPokemon } from "../utils/apagarPokemon";
+import { lerPokedex } from "../utils/lerPokedex";
 
 async function deletarPokemon() {
   const pokedex = await lerPokedex();
@@ -10,7 +11,7 @@ async function deletarPokemon() {
     return true;
   }
 
-  const pokemonDeletar = await inquirer.prompt([
+  const pokemonDeletar: { deletar: string } = await inquirer.prompt([
     {
       type: "select",
       name: "deletar",
@@ -20,14 +21,14 @@ async function deletarPokemon() {
   ]);
 
   if (pokemonDeletar.deletar === "Nome") {
-    const nomeRecebido = await inquirer.prompt([
+    const nomeRecebido: { nome: string } = await inquirer.prompt([
       { type: "input", name: "nome", message: "Digite o nome do pokemón:" },
     ]);
 
     const deletarNome = nomeRecebido.nome;
 
     const index = pokedex.findIndex((pokemon) => {
-      return pokemon.name.toLowerCase() === deletarNome.toLowerCase();
+      return pokemon.nome.toLowerCase() === deletarNome.toLowerCase();
     });
 
     await apagarPokemon(pokedex, index);

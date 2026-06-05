@@ -1,20 +1,24 @@
 import { readFile } from "node:fs/promises";
 
-async function lerPokedex() {
-	try{
-		const pokedexTexto = await readFile("./pokedex.json", {encoding: "utf-8"})
+import { Pokemon } from "../models/pokemon";
 
-		const pokedex = JSON.parse(pokedexTexto)
+async function lerPokedex(): Promise<Pokemon[] | null> {
+  try {
+    const pokedexTexto = await readFile("./pokedex.json", {
+      encoding: "utf-8",
+    });
 
-		if(!Array.isArray(pokedex)){
-			throw new Error("O arquivo não contém uma lista válida")
-		}
+    const pokedex = JSON.parse(pokedexTexto) as Pokemon[];
 
-		return pokedex
-	}catch(error){
-		console.error("Arquivo corrompido, não foi possível ler os dados")
-		return null
-	}
+    if (!Array.isArray(pokedex)) {
+      throw new Error("O arquivo não contém uma lista válida");
+    }
+
+    return pokedex;
+  } catch {
+    console.log("[ERRO] Erro ao ler a Pokédex");
+    return null;
+  }
 }
 
-export {lerPokedex}
+export { lerPokedex };

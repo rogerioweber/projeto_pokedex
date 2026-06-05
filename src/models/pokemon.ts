@@ -1,42 +1,136 @@
+interface Stats {
+  base_stat: number;
+  stat: {
+    name: string;
+  };
+}
+
+function isPokemonStat(pokemonStats: unknown): pokemonStats is Stats {
+  return (
+    !!pokemonStats &&
+    typeof pokemonStats === "object" &&
+    "base_stat" in pokemonStats &&
+    typeof pokemonStats.base_stat === "number" &&
+    "stat" in pokemonStats &&
+    !!pokemonStats.stat &&
+    typeof pokemonStats.stat === "object" &&
+    "name" in pokemonStats.stat &&
+    typeof pokemonStats.stat.name === "string"
+  );
+}
+
+interface Types {
+  type: {
+    name: string;
+  };
+}
+
+function isPokemonType(PokemonTypes: unknown): PokemonTypes is Types {
+  return (
+    !!PokemonTypes &&
+    typeof PokemonTypes === "object" &&
+    "type" in PokemonTypes &&
+    !!PokemonTypes.type &&
+    typeof PokemonTypes.type === "object" &&
+    "name" in PokemonTypes.type &&
+    typeof PokemonTypes.type.name === "string"
+  );
+}
 export class Pokemon {
   constructor(
     public id: number,
-    public name: string,
-    public height: number,
-    public weight: number,
-    public types: string[],
-    public hp: number,
-    public attack: number,
-    public defense: number,
-    public special_attack: number,
+    public nome: string,
+    public altura: number,
+    public peso: number,
+    public tipos: string[],
+    public vida: number,
+    public ataque: number,
+    public defesa: number,
+    public ataque_especial: number,
   ) {}
 
-  static pokemonDaApi(pokemon: any): Pokemon {
-    const types = pokemon.types.map(
-      (pokemonType: any) => pokemonType.type.name,
+  static pokemonDaApi(pokemonAchadoAPI: unknown): Pokemon {
+    if (!pokemonAchadoAPI || typeof pokemonAchadoAPI !== "object") {
+      throw new Error("Pokémon Inválido");
+    }
+
+    if (!("id" in pokemonAchadoAPI)) {
+      throw new Error("Id ausente");
+    }
+
+    if (typeof pokemonAchadoAPI.id !== "number") {
+      throw new Error("Id inválido");
+    }
+
+    if (!("name" in pokemonAchadoAPI)) {
+      throw new Error("Nome ausente");
+    }
+
+    if (typeof pokemonAchadoAPI.name !== "string") {
+      throw new Error("Nome inválido");
+    }
+
+    if (!("height" in pokemonAchadoAPI)) {
+      throw new Error("Altura ausente");
+    }
+
+    if (typeof pokemonAchadoAPI.height !== "number") {
+      throw new Error("Altura inválida");
+    }
+
+    if (!("weight" in pokemonAchadoAPI)) {
+      throw new Error("Peso ausente");
+    }
+
+    if (typeof pokemonAchadoAPI.weight !== "number") {
+      throw new Error("Peso inválido");
+    }
+
+    if (!("types" in pokemonAchadoAPI)) {
+      throw new Error("Tipos ausente");
+    }
+
+    if (!Array.isArray(pokemonAchadoAPI.types)) {
+      throw new Error("Tipos inválidos");
+    }
+
+    if (!("stats" in pokemonAchadoAPI)) {
+      throw new Error("Stats ausente");
+    }
+
+    if (!Array.isArray(pokemonAchadoAPI.stats)) {
+      throw new Error("Stats inválidas");
+    }
+
+    const typesApi = pokemonAchadoAPI.types.filter(isPokemonType);
+
+    const statsApi = pokemonAchadoAPI.stats.filter(isPokemonStat);
+
+    const types = typesApi.map((pokemonType) => pokemonType.type.name);
+
+    const hp = statsApi.find((pokemonStat) => pokemonStat.stat.name === "hp");
+
+    const attack = statsApi.find(
+      (pokemonStat) => pokemonStat.stat.name === "attack",
     );
 
-    const hp = pokemon.stats.find(
-      (pokemonStat: any) => pokemonStat.stat.name === "hp",
+    const defense = statsApi.find(
+      (pokemonStat) => pokemonStat.stat.name === "defense",
     );
 
-    const attack = pokemon.stats.find(
-      (pokemonStat: any) => pokemonStat.stat.name === "attack",
+    const special_attack = statsApi.find(
+      (pokemonStat) => pokemonStat.stat.name === "special-attack",
     );
 
-    const defense = pokemon.stats.find(
-      (pokemonStat: any) => pokemonStat.stat.name === "defense",
-    );
-
-    const special_attack = pokemon.stats.find(
-      (pokemonStat: any) => pokemonStat.stat.name === "special-attack",
-    );
+    if (!hp || !attack || !defense || !special_attack) {
+      throw new Error("Stats obrigatórios ausentes");
+    }
 
     return new Pokemon(
-      pokemon.id,
-      pokemon.name,
-      pokemon.height,
-      pokemon.weight,
+      pokemonAchadoAPI.id,
+      pokemonAchadoAPI.name,
+      pokemonAchadoAPI.height,
+      pokemonAchadoAPI.weight,
       types,
       hp.base_stat,
       attack.base_stat,

@@ -1,9 +1,10 @@
 import inquirer from "inquirer";
-import { procurarPokemon } from "../services/procurarPokemon";
+
 import { acessarPokedex } from "../services/acessarPokedex";
-import { voltarMenu } from "../utils/voltarMenu";
-import { deletarPokemon } from "../services/deletarPokemon";
 import { criarPokedex } from "../services/criarPokedex";
+import { deletarPokemon } from "../services/deletarPokemon";
+import { procurarPokemon } from "../services/procurarPokemon";
+import { voltarMenu } from "../services/voltarMenu";
 
 async function menuController(): Promise<boolean> {
   await criarPokedex();
