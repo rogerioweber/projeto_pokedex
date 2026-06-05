@@ -1,11 +1,12 @@
 import inquirer from "inquirer";
+
+import { Pokemon } from "../models/pokemon";
 import { buscarPokemonApi } from "../utils/buscarPokemonApi";
 import { lerPokedex } from "../utils/lerPokedex";
 import { salvarPokemon } from "../utils/salvarPokemon";
-import { Pokemon } from "../models/pokemon";
 
 async function procurarPokemon() {
-  const pokemonDigitado = await inquirer.prompt([
+  const pokemonDigitado: { nomeOuId: string } = await inquirer.prompt([
     { name: "nomeOuId", message: "Digite o pokemon(nome ou id):" },
   ]);
 
@@ -32,18 +33,9 @@ async function procurarPokemon() {
 
   const pokemon = Pokemon.pokemonDaApi(pokemonAchadoAPI);
 
-  const pokemonExistePokedex = pokedex.find(
-    (pokemonName: any) => pokemon.name === pokemonName.name,
-  );
-
-  if (pokemonExistePokedex) {
-    console.log(`[AVISO] ${pokemon.name} já existe na Pokédex`);
-    return true;
-  }
-
   console.log("[OK] Pokémon Encontrado");
   console.log(
-    `id: ${pokemon.id} | Pokémon: ${pokemon.name} |  Altura: ${pokemon.height / 10}m | Peso: ${pokemon.weight / 10}kg | Tipo: ${pokemon.types}`,
+    `id: ${pokemon.id.toString()} | Pokémon: ${pokemon.nome} |  Altura: ${(pokemon.altura / 10).toString()}m | Peso: ${(pokemon.peso / 10).toString()}kg | Tipo: ${pokemon.tipos.join(", ")}`,
   );
 
   await salvarPokemon(pokemon, pokedex);

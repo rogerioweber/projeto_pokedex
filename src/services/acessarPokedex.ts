@@ -14,10 +14,10 @@ async function acessarPokedex() {
 
   pokedex.forEach((pokemon) => {
     console.log(
-      `#${pokemon.id} | ${pokemon.name} | Tipo: ${pokemon.types.join(", ")} | Altura: ${Number(pokemon.height) / 10}m | Peso: ${Number(pokemon.weight) / 10}kg `,
+      `#${pokemon.id.toString()} | ${pokemon.nome} | Tipo: ${pokemon.tipos.join(", ")} | Altura: ${(pokemon.altura / 10).toString()}m | Peso: ${(pokemon.peso / 10).toString()}kg `,
     );
     console.log(
-      `Vida: ${pokemon.hp} | Ataque: ${pokemon.attack} | Defesa: ${pokemon.defense} | Ataque Especial: ${pokemon.special_attack}`,
+      `Vida: ${pokemon.vida.toString()} | Ataque: ${pokemon.ataque.toString()} | Defesa: ${pokemon.defesa.toString()} | Ataque Especial: ${pokemon.ataque_especial.toString()}`,
     );
     console.log("===============================================");
   });
