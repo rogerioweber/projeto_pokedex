@@ -30,11 +30,11 @@ async function apagarPokemon(pokedex: Pokemon[], index: number) {
       });
 
       console.log("[OK] Pokémon removido com sucesso");
+      return true;
     }
 
-    if (confirmar.apagar === "Não") {
-      console.log("[OK] O pokémon não foi removido");
-    }
+    console.log("[AVISO] O pokémon não foi removido");
+    return true;
   } catch {
     console.error("[ERRO] Erro ao apagar o Pokémon");
     return null;
