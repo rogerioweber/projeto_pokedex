@@ -34,10 +34,8 @@ async function salvarPokemon(pokemon: Pokemon, pokemonsNaPokedex: Pokemon[]) {
       return true;
     }
 
-    if (desejaSalvar.salvar === "Não") {
-      console.log(`[AVISO] ${pokemon.nome} não foi salvo na pokédex`);
-      return true;
-    }
+    console.log(`[AVISO] ${pokemon.nome} não foi salvo na pokédex`);
+    return true;
   } catch {
     console.error("[ERRO] Erro ao salvar o Pokémon");
     return null;
